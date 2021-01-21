@@ -63,8 +63,9 @@ const inventFifteen = inventors.filter(function(inventor){
   if(inventor.born >= 1500 && inventor.born < 1600) {
     return true;
   }
+  document.getElementById("one").innerHTML = "Galilieo Galilei: " + " Born: 1564 "+"Died: 1642";
+  document.getElementById("onep").innerHTML = "Johannes Kepler:" + " Born: 1571 " + "Died: 1630";
 });
-console.table(inventFifteen);
 // Array.prototype.map()
 // 2. Give us an array of the inventors first and last names
 const names = inventors.map(inventor => inventor.firstName + ' ' + inventor.lastName);
@@ -81,15 +82,54 @@ const oldToYoung = inventors.sort(function(firstPerson, secondPerson){
 console.table(oldToYoung)
 // Array.prototype.reduce()
 // 4. How many years did all the inventors live all together?
-
+const totalborn = inventors.reduce((total, inventor) => {
+  return total + (inventor.died - inventor.born)
+}, 0)
+console.table('The total amount of years the inventors were alive, if added together: ' + totalborn)
 // 5. Sort the inventors by years lived
-
+const oldestInventor = inventors.sort(function(oldestPerson, youngestPerson){
+  const lastPerson = youngestPerson.died - youngestPerson.born;
+  const nextPerson = oldestPerson.died - oldestPerson.born;
+  if(lastPerson > nextPerson) {
+    return - 1;
+  } else {
+    return 1;
+  }
+});
+console.table(oldestInventor)
 // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
 // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+ const links = Array.from(document.querySelectorAll(".mw-category a"));
+ const de = links
+   .map((link) => link.textContent) // extracting out only string
+   .filter((boulevardName) => boulevardName.includes("de"));
 
+ console.log(de);
+ console.log(
+"1: " + "Boulevard de l'Amiral-Bruix " +
+"2: " + "Boulevard des Capucines " +
+"3: " + "Boulevard de la Chapelle " +
+"4: " + "Boulevard de Clichy " +
+"5: " + "Boulevard de l'Hôpital " +
+"6: " + "Boulevard des Italiens " +
+"7: " + "Boulevard de la Madeleine " +
+"8: " + "Boulevard de Magenta " +
+"9: " + "Boulevard Marguerite-de-Rochechouart " +
+"10: " + "Boulevard de Sébastopol " +
+"11: " + "Boulevard de Strasbourg " +
+"12: " + "Boulevard de la Zone");
 // 7. sort Exercise
 // Sort the people alphabetically by last name
-
+const sortToLastName = people.sort((personsLastName, nextPersonsLastName) => {
+  const [pLast, pFirst] = personsLastName.split(', ');
+  const [pepLast, pepFirst] = nextPersonsLastName.split(', ');
+    if(pLast > pepFirst) {
+      return 1;
+    } else {
+      return -1;
+    }
+});
+console.table(sortToLastName)
 // 8. Reduce Exercise
 // Sum up the instances of each of these
 const data = [
@@ -108,3 +148,11 @@ const data = [
   "car",
   "truck",
 ];
+const vehicle = data.reduce(function(object, item) {
+  if(!object[item]) {
+    object[item] = 0;
+  }
+  object[item]++;
+  return object;
+}, {});
+console.table(vehicle);
